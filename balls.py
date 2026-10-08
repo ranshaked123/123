@@ -15,14 +15,14 @@ class Ball:
         self.x = random.randint(self.radius,self.screen_width - self.radius)
         self.y = random.randint(self.radius,self.screen_height - self.radius)
         #random jumps amount
-        self.jumps_amount = random.randint(1, 5)
+        self.jumps_amount = random.randint(1, 6)
 
     def update(self):
-        if self.jumps_amount > 0:
+        while self.jumps_amount > 0:
             self.x = random.randint(self.radius, self.screen_width - self.radius)
             self.y = random.randint(self.radius, self.screen_height - self.radius)
             self.jumps_amount -= 1
-            time.sleep(2)
+            time.sleep(0.5)
 
 
     def draw(self, screen):
@@ -50,14 +50,19 @@ for i in range(amount_of_balls_req):
     new_ball = Ball(800, 600)
     balls.append(new_ball)
 
-    ball_thread = threading.Thread(target=new_ball.update, daemon=True)
-    ball_thread.start()
+    ball_thread = threading.Thread(target=new_ball.update, daemon=True).start()
+
 
 
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+    for ball in balls:
+        if ball.jumps_amount == 0:
+            balls.remove(ball)
+
     screen.fill((0, 0, 0))
 
     for ball in balls:
