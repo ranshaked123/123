@@ -67,6 +67,7 @@ while running:
 
     for ball in balls:
         ball.draw(screen)
+    print("amount of balls: " + str(len(balls)))
 
     pygame.display.flip()
     clock.tick(60)
